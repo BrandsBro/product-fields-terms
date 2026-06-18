@@ -2,7 +2,7 @@
 
 client_id = "f56c3dd58a43fd56211213e7c78f9301"
 name = "Product Fields & Terms"
-application_url = "https://example.com"
+application_url = "https://product-fields-terms.onrender.com"
 embedded = true
 
 [access_scopes]
@@ -45,7 +45,7 @@ api_version = "2026-07"
   topics = [ "app/scopes_update" ]
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ "https://product-fields-terms.onrender.com/api/auth" ]
 
 [build]
 include_config_on_deploy = true
