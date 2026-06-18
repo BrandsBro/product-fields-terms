@@ -9,8 +9,8 @@ generator client {
 // enough when changing adapters.
 // See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
 datasource db {
-  provider = "sqlite"
-  url      = "file:dev.sqlite"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Session {
@@ -31,4 +31,44 @@ model Session {
   emailVerified Boolean?  @default(false)
   refreshToken        String?
   refreshTokenExpires DateTime?
+}
+
+enum FieldType {
+  TEXT
+  DROPDOWN
+  CHECKBOX
+  AGREEMENT
+}
+
+model FieldGroup {
+  id        String   @id @default(uuid())
+  shop      String
+  name      String
+  productId String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  fields    Field[]
+}
+
+model Field {
+  id          String        @id @default(uuid())
+  groupId     String
+  label       String
+  type        FieldType
+  placeholder String?
+  required    Boolean       @default(false)
+  order       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  group       FieldGroup    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  options     FieldOption[]
+}
+
+model FieldOption {
+  id      String @id @default(uuid())
+  fieldId String
+  label   String
+  order   Int    @default(0)
+  field   Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
 }
