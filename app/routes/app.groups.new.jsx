@@ -98,19 +98,22 @@ export default function NewGroup() {
                 <Text variant="headingSm" fontWeight="semibold">Examples</Text>
                 <BlockStack gap="200">
                   {EXAMPLES.map((ex) => (
-                    <Box
+                    <div
                       key={ex.label}
-                      background="bg-surface-secondary"
-                      borderRadius="200"
-                      padding="300"
                       onClick={() => setName(ex.label)}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        background: "#f6f6f7",
+                        borderRadius: "8px",
+                        padding: "12px",
+                        cursor: "pointer",
+                        border: name === ex.label ? "2px solid #008060" : "2px solid transparent",
+                      }}
                     >
                       <BlockStack gap="050">
                         <Text variant="bodySm" fontWeight="semibold">{ex.label}</Text>
                         <Text variant="bodySm" tone="subdued">{ex.desc}</Text>
                       </BlockStack>
-                    </Box>
+                    </div>
                   ))}
                 </BlockStack>
                 <Text variant="bodySm" tone="subdued">Click an example to use it as your group name.</Text>
