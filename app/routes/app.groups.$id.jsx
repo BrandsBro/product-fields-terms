@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLoaderData, useFetcher, useNavigate } from "react-router";
+import { useLoaderData, useFetcher, useNavigate, redirect } from "react-router";
 import { authenticate } from "../shopify.server";
 import db from "../db.server";
 import {
@@ -68,6 +68,11 @@ export const action = async ({ request, params }) => {
     });
   }
 
+  if (intent === "deleteGroup") {
+    await db.fieldGroup.delete({ where: { id: params.id } });
+    return redirect("/app");
+  }
+
   return { ok: true };
 };
 
@@ -83,9 +88,9 @@ export default function GroupDetail() {
   const fetcher = useFetcher();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [label, setLabel] = useState("");
   const [type, setType] = useState("TEXT");
-  const [required, setRequired] = useState(false);
   const [placeholder, setPlaceholder] = useState("");
   const isSubmitting = fetcher.state === "submitting";
 
@@ -104,7 +109,6 @@ export default function GroupDetail() {
     form.append("intent", "addField");
     form.append("label", label);
     form.append("type", type);
-    form.append("required", required.toString());
     form.append("placeholder", placeholder);
     fetcher.submit(form, { method: "POST" });
   };
@@ -122,6 +126,12 @@ export default function GroupDetail() {
     fetcher.submit(form, { method: "POST" });
   };
 
+  const deleteGroup = () => {
+    const form = new FormData();
+    form.append("intent", "deleteGroup");
+    fetcher.submit(form, { method: "POST" });
+  };
+
   return (
     <Page
       title={group.name}
@@ -134,6 +144,11 @@ export default function GroupDetail() {
         {
           content: group.isActive ? "Deactivate" : "Activate",
           onAction: toggleActive,
+        },
+        {
+          content: "Delete group",
+          destructive: true,
+          onAction: () => setShowDeleteModal(true),
         },
       ]}
     >
@@ -223,12 +238,24 @@ export default function GroupDetail() {
                 autoComplete="off"
               />
             )}
-            <Checkbox
-              label="Required"
-              checked={required}
-              onChange={setRequired}
-            />
           </BlockStack>
+        </Modal.Section>
+      </Modal>
+
+      <Modal
+        open={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        title="Delete field group"
+        primaryAction={{
+          content: "Delete",
+          destructive: true,
+          onAction: deleteGroup,
+          loading: isSubmitting,
+        }}
+        secondaryActions={[{ content: "Cancel", onAction: () => setShowDeleteModal(false) }]}
+      >
+        <Modal.Section>
+          <Text>Are you sure you want to delete "{group.name}"? This will also delete all fields in this group. This action cannot be undone.</Text>
         </Modal.Section>
       </Modal>
     </Page>
