@@ -99,7 +99,6 @@ export default function GroupDetail() {
       setShowModal(false);
       setLabel("");
       setType("TEXT");
-      setRequired(false);
       setPlaceholder("");
     }
   }, [fetcher.data, fetcher.state]);
@@ -178,6 +177,10 @@ export default function GroupDetail() {
                   <ResourceItem
                     id={field.id}
                     shortcutActions={[
+                      ...(field.type === "DROPDOWN" ? [{
+                        content: "Manage options",
+                        onAction: () => navigate(`/app/fields/${field.id}/options`),
+                      }] : []),
                       {
                         content: "Delete",
                         destructive: true,
