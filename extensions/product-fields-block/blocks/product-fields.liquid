@@ -17,11 +17,21 @@
   var shop = {{ shop.permanent_domain | json }};
   var productId = {{ product.id | json }};
   var blockId = "{{ block.id }}";
-  var appUrl = {{ block.settings.app_url | json }};
+  var appUrl = 'https://product-fields-terms.onrender.com';
   var groupIds = {{ block.settings.group_ids | json }};
+  var styles = {
+    labelColor: {{ block.settings.label_color | json }},
+    labelSize: {{ block.settings.label_size | json }} + 'px',
+    inputBg: {{ block.settings.input_bg | json }},
+    inputBorderColor: {{ block.settings.input_border_color | json }},
+    inputBorderRadius: {{ block.settings.input_border_radius | json }} + 'px',
+    inputTextColor: {{ block.settings.input_text_color | json }},
+    agreementBg: {{ block.settings.agreement_bg | json }},
+    agreementBorderColor: {{ block.settings.agreement_border_color | json }},
+  };
   var pfFields = [];
 
-  if (!appUrl) return;
+
 
   var apiUrl = appUrl + '/api/fields?shop=' + shop + '&productId=' + productId;
   if (groupIds) apiUrl += '&groupIds=' + encodeURIComponent(groupIds);
@@ -40,66 +50,68 @@
         var fieldDiv = document.createElement('div');
         fieldDiv.className = 'pf-field';
 
+        var lbl, inp, sel, div;
+
         if (field.type === 'TEXT') {
-          var label = document.createElement('label');
-          label.textContent = field.label;
-          label.className = 'pf-label';
-          var input = document.createElement('input');
-          input.type = 'text';
-          input.dataset.pfLabel = field.label;
-          input.placeholder = field.placeholder || '';
-          input.className = 'pf-input';
-          fieldDiv.appendChild(label);
-          fieldDiv.appendChild(input);
+          lbl = document.createElement('label');
+          lbl.textContent = field.label;
+          lbl.style.cssText = 'display:block; margin-bottom:4px; font-weight:500; color:' + styles.labelColor + '; font-size:' + styles.labelSize + ';';
+          inp = document.createElement('input');
+          inp.type = 'text';
+          inp.dataset.pfLabel = field.label;
+          inp.placeholder = field.placeholder || '';
+          inp.style.cssText = 'width:100%; padding:10px 12px; border:1px solid ' + styles.inputBorderColor + '; border-radius:' + styles.inputBorderRadius + '; font-size:14px; box-sizing:border-box; background:' + styles.inputBg + '; color:' + styles.inputTextColor + '; font-family:inherit;';
+          fieldDiv.appendChild(lbl);
+          fieldDiv.appendChild(inp);
 
         } else if (field.type === 'DROPDOWN') {
-          var label = document.createElement('label');
-          label.textContent = field.label;
-          label.className = 'pf-label';
-          var select = document.createElement('select');
-          select.dataset.pfLabel = field.label;
-          select.className = 'pf-select';
+          lbl = document.createElement('label');
+          lbl.textContent = field.label;
+          lbl.style.cssText = 'display:block; margin-bottom:4px; font-weight:500; color:' + styles.labelColor + '; font-size:' + styles.labelSize + ';';
+          sel = document.createElement('select');
+          sel.dataset.pfLabel = field.label;
+          sel.style.cssText = 'width:100%; padding:10px 12px; border:1px solid ' + styles.inputBorderColor + '; border-radius:' + styles.inputBorderRadius + '; font-size:14px; box-sizing:border-box; background:' + styles.inputBg + '; color:' + styles.inputTextColor + '; font-family:inherit;';
           var defaultOpt = document.createElement('option');
           defaultOpt.value = '';
           defaultOpt.textContent = 'Select an option';
-          select.appendChild(defaultOpt);
+          sel.appendChild(defaultOpt);
           (field.options || []).forEach(function(opt) {
             var option = document.createElement('option');
             option.value = opt.label;
             option.textContent = opt.label;
-            select.appendChild(option);
+            sel.appendChild(option);
           });
-          fieldDiv.appendChild(label);
-          fieldDiv.appendChild(select);
+          fieldDiv.appendChild(lbl);
+          fieldDiv.appendChild(sel);
 
         } else if (field.type === 'CHECKBOX') {
-          var div = document.createElement('div');
-          div.className = 'pf-checkbox-wrap';
-          var input = document.createElement('input');
-          input.type = 'checkbox';
-          input.dataset.pfLabel = field.label;
-          input.dataset.pfValue = 'Yes';
-          input.className = 'pf-checkbox';
-          var label = document.createElement('label');
-          label.textContent = field.label;
-          label.className = 'pf-checkbox-label';
-          div.appendChild(input);
-          div.appendChild(label);
+          div = document.createElement('div');
+          div.style.cssText = 'display:flex; align-items:center; gap:8px;';
+          inp = document.createElement('input');
+          inp.type = 'checkbox';
+          inp.dataset.pfLabel = field.label;
+          inp.dataset.pfValue = 'Yes';
+          inp.style.cssText = 'width:16px; height:16px; cursor:pointer; flex-shrink:0; accent-color:' + styles.inputBorderColor + ';';
+          lbl = document.createElement('label');
+          lbl.textContent = field.label;
+          lbl.style.cssText = 'font-size:' + styles.labelSize + '; color:' + styles.labelColor + '; cursor:pointer;';
+          div.appendChild(inp);
+          div.appendChild(lbl);
           fieldDiv.appendChild(div);
 
         } else if (field.type === 'AGREEMENT') {
-          var div = document.createElement('div');
-          div.className = 'pf-agreement-wrap';
-          var input = document.createElement('input');
-          input.type = 'checkbox';
-          input.dataset.pfLabel = field.label;
-          input.dataset.pfValue = 'Agreed';
-          input.className = 'pf-checkbox';
-          var label = document.createElement('label');
-          label.textContent = field.label;
-          label.className = 'pf-checkbox-label';
-          div.appendChild(input);
-          div.appendChild(label);
+          div = document.createElement('div');
+          div.style.cssText = 'display:flex; align-items:flex-start; gap:8px; padding:12px; background:' + styles.agreementBg + '; border-radius:' + styles.inputBorderRadius + '; border:1px solid ' + styles.agreementBorderColor + ';';
+          inp = document.createElement('input');
+          inp.type = 'checkbox';
+          inp.dataset.pfLabel = field.label;
+          inp.dataset.pfValue = 'Agreed';
+          inp.style.cssText = 'width:16px; height:16px; cursor:pointer; flex-shrink:0; margin-top:2px; accent-color:' + styles.inputBorderColor + ';';
+          lbl = document.createElement('label');
+          lbl.textContent = field.label;
+          lbl.style.cssText = 'font-size:' + styles.labelSize + '; color:' + styles.labelColor + '; cursor:pointer; line-height:1.5;';
+          div.appendChild(inp);
+          div.appendChild(lbl);
           fieldDiv.appendChild(div);
         }
 
@@ -194,17 +206,75 @@
   "name": "Product Fields",
   "target": "section",
   "settings": [
+
+
     {
-      "type": "text",
-      "id": "app_url",
-      "label": "App URL",
-      "default": "https://product-fields-terms.onrender.com"
+      "type": "header",
+      "content": "Label styles"
     },
     {
-      "type": "text",
-      "id": "group_ids",
-      "label": "Limit to specific groups (optional)",
-      "info": "Enter comma-separated group IDs to show only those groups. Leave blank to show all active groups."
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label font size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Input styles"
+    },
+    {
+      "type": "color",
+      "id": "input_bg",
+      "label": "Input background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border color",
+      "default": "#d1d5db"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Input border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input text color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Agreement box styles"
+    },
+    {
+      "type": "color",
+      "id": "agreement_bg",
+      "label": "Agreement background color",
+      "default": "#f9fafb"
+    },
+    {
+      "type": "color",
+      "id": "agreement_border_color",
+      "label": "Agreement border color",
+      "default": "#e5e7eb"
     }
   ]
 }

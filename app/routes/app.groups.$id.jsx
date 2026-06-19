@@ -33,6 +33,7 @@ import {
   DeleteIcon,
   ChevronRightIcon,
   EditIcon,
+  DragHandleIcon,
 } from "@shopify/polaris-icons";
 
 export const loader = async ({ request, params }) => {
@@ -116,6 +117,15 @@ export const action = async ({ request, params }) => {
     });
   }
 
+  if (intent === "reorderFields") {
+    const ids = formData.getAll("ids");
+    await Promise.all(
+      ids.map((id, index) =>
+        db.field.update({ where: { id }, data: { order: index } })
+      )
+    );
+  }
+
   if (intent === "deleteGroup") {
     await db.fieldGroup.delete({ where: { id: params.id } });
     return redirect("/app");
@@ -157,6 +167,8 @@ export default function GroupDetail() {
   const fetcher = useFetcher();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [dragFieldIndex, setDragFieldIndex] = useState(null);
+  const [fieldList, setFieldList] = useState(group.fields);
   const shopify = useAppBridge();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [label, setLabel] = useState("");
@@ -170,8 +182,29 @@ export default function GroupDetail() {
       setLabel("");
       setType("TEXT");
       setPlaceholder("");
+      setFieldList(group.fields);
     }
-  }, [fetcher.data, fetcher.state]);
+  }, [fetcher.data, fetcher.state, group.fields]);
+
+  const handleFieldDragStart = (index) => setDragFieldIndex(index);
+
+  const handleFieldDragOver = (e, index) => {
+    e.preventDefault();
+    if (dragFieldIndex === null || dragFieldIndex === index) return;
+    const newFields = [...fieldList];
+    const dragged = newFields.splice(dragFieldIndex, 1)[0];
+    newFields.splice(index, 0, dragged);
+    setFieldList(newFields);
+    setDragFieldIndex(index);
+  };
+
+  const handleFieldDragEnd = () => {
+    setDragFieldIndex(null);
+    const form = new FormData();
+    form.append("intent", "reorderFields");
+    fieldList.forEach((f) => form.append("ids", f.id));
+    fetcher.submit(form, { method: "POST" });
+  };
 
   const submitField = () => {
     const form = new FormData();
@@ -376,11 +409,24 @@ export default function GroupDetail() {
               </Box>
             ) : (
               <BlockStack>
-                {group.fields.map((field, index) => (
-                  <div key={field.id}>
-                    <Box paddingInline="400" paddingBlock="300">
+                {fieldList.map((field, index) => (
+                  <div
+                    key={field.id}
+                    draggable
+                    onDragStart={() => handleFieldDragStart(index)}
+                    onDragOver={(e) => handleFieldDragOver(e, index)}
+                    onDragEnd={handleFieldDragEnd}
+                  >
+                    <Box
+                      paddingInline="400"
+                      paddingBlock="300"
+                      background={dragFieldIndex === index ? "bg-surface-secondary" : undefined}
+                    >
                       <InlineStack align="space-between" blockAlign="center" wrap={false}>
                         <InlineStack gap="300" blockAlign="center" wrap={false}>
+                          <div style={{ color: "#8c9196", display: "flex", cursor: "grab", flexShrink: 0 }}>
+                            <Icon source={DragHandleIcon} />
+                          </div>
                           <div style={{
                             background: FIELD_COLORS[field.type],
                             borderRadius: "8px",
@@ -423,7 +469,7 @@ export default function GroupDetail() {
                         </InlineStack>
                       </InlineStack>
                     </Box>
-                    {index < group.fields.length - 1 && <Divider />}
+                    {index < fieldList.length - 1 && <Divider />}
                   </div>
                 ))}
               </BlockStack>

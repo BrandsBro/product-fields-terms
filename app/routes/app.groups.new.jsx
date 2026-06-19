@@ -49,10 +49,10 @@ export default function NewGroup() {
   const isLoading = fetcher.state === "submitting";
 
   useEffect(() => {
-    if (fetcher.data?.group?.id) {
+    if (fetcher.state === "idle" && fetcher.data?.group?.id) {
       navigate(`/app/groups/${fetcher.data.group.id}`);
     }
-  }, [fetcher.data]);
+  }, [fetcher.data, fetcher.state]);
 
   const handleSave = () => {
     const form = new FormData();
@@ -156,9 +156,11 @@ export default function NewGroup() {
               <InlineStack gap="200">
                 <Button
                   variant="primary"
-                  onClick={handleSave}
+                  onClick={() => {
+                    if (!name.trim()) return;
+                    handleSave();
+                  }}
                   loading={isLoading}
-                  disabled={!name.trim()}
                   size="large"
                 >
                   Save and add fields
