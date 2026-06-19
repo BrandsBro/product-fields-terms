@@ -256,8 +256,8 @@ export default function Index() {
                               </Badge>
                             </InlineStack>
                             <Text tone="subdued" variant="bodySm">
-                              {group.fields.length} field{group.fields.length !== 1 ? "s" : ""} &nbsp;·&nbsp; {group.productId ? "Specific product" : "All products"}
-                            </Text>
+                            {group.fields.length} field{group.fields.length !== 1 ? "s" : ""} &nbsp;·&nbsp; {group.productId ? "Specific product" : "All products"}
+                          </Text>
                           </BlockStack>
                         </InlineStack>
                         <Button

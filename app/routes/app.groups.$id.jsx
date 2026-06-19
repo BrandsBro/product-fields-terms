@@ -296,6 +296,7 @@ export default function GroupDetail() {
                   <Text variant="headingSm" fontWeight="semibold">Product targeting</Text>
                   <Text variant="bodySm" tone="subdued">Choose which products show these fields.</Text>
                 </BlockStack>
+
               </InlineStack>
               <Divider />
               {group.productId ? (
