@@ -176,6 +176,7 @@ export default function GroupDetail() {
                 renderItem={(field) => (
                   <ResourceItem
                     id={field.id}
+                    onClick={field.type === "DROPDOWN" ? () => navigate(`/app/fields/${field.id}/options`) : undefined}
                     shortcutActions={[
                       ...(field.type === "DROPDOWN" ? [{
                         content: "Manage options",
