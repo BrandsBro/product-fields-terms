@@ -15,6 +15,11 @@ export default function App() {
   return (
     <AppProvider embedded apiKey={apiKey}>
       <PolarisAppProvider i18n={{}}>
+        <s-app-nav>
+          <s-link href="/app">Field Groups</s-link>
+          <s-link href="/app/settings">Settings</s-link>
+          <s-link href="/app/help">Help</s-link>
+        </s-app-nav>
         <Outlet />
       </PolarisAppProvider>
     </AppProvider>

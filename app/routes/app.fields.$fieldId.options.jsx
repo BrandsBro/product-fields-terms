@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
+import { useRevalidator } from "react-router";
 import { useLoaderData, useFetcher, useNavigate } from "react-router";
 import { authenticate } from "../shopify.server";
 import db from "../db.server";
@@ -12,16 +13,17 @@ import {
   TextField,
   InlineStack,
   Button,
-  Icon,
   Box,
   Divider,
+  Icon,
+  Badge,
+  Banner,
 } from "@shopify/polaris";
-import { DragHandleIcon, DeleteIcon } from "@shopify/polaris-icons";
+import { DragHandleIcon, DeleteIcon, PlusCircleIcon } from "@shopify/polaris-icons";
 
 export const loader = async ({ request, params }) => {
   const { session } = await authenticate.admin(request);
   const shop = session.shop;
-
   const field = await db.field.findFirst({
     where: { id: params.fieldId },
     include: {
@@ -29,11 +31,9 @@ export const loader = async ({ request, params }) => {
       group: true,
     },
   });
-
   if (!field || field.group.shop !== shop) {
     throw new Response("Not Found", { status: 404 });
   }
-
   return { field };
 };
 
@@ -71,17 +71,26 @@ export const action = async ({ request, params }) => {
 export default function FieldOptions() {
   const { field } = useLoaderData();
   const fetcher = useFetcher();
+  const revalidator = useRevalidator();
   const navigate = useNavigate();
   const [label, setLabel] = useState("");
   const [options, setOptions] = useState(field.options);
   const [dragIndex, setDragIndex] = useState(null);
   const isSubmitting = fetcher.state === "submitting";
 
+  // Sync options from loader data
+  useEffect(() => {
+    setOptions(field.options);
+  }, [field.options]);
+
   const addOption = () => {
     if (!label.trim()) return;
+    // Optimistically add to list
+    const tempOption = { id: "temp-" + Date.now(), label: label.trim(), order: options.length };
+    setOptions([...options, tempOption]);
     const form = new FormData();
     form.append("intent", "addOption");
-    form.append("label", label);
+    form.append("label", label.trim());
     fetcher.submit(form, { method: "POST" });
     setLabel("");
   };
@@ -117,7 +126,7 @@ export default function FieldOptions() {
   return (
     <Page
       title={`"${field.label}" Options`}
-      subtitle={`${options.length} option${options.length !== 1 ? "s" : ""} · Drag to reorder`}
+      subtitle={`${options.length} option${options.length !== 1 ? "s" : ""} · Drag rows to reorder`}
       backAction={{
         content: field.group.name,
         onAction: () => navigate(`/app/groups/${field.group.id}`),
@@ -126,8 +135,11 @@ export default function FieldOptions() {
       <Layout>
         <Layout.Section>
           <Card>
-            <BlockStack gap="300">
-              <Text variant="headingSm" fontWeight="semibold">Add new option</Text>
+            <BlockStack gap="400">
+              <BlockStack gap="100">
+                <Text variant="headingSm" fontWeight="semibold">Add new option</Text>
+                <Text variant="bodySm" tone="subdued">Options appear in the dropdown on your product page.</Text>
+              </BlockStack>
               <InlineStack gap="200" blockAlign="end">
                 <div style={{ flex: 1 }}>
                   <TextField
@@ -135,13 +147,14 @@ export default function FieldOptions() {
                     labelHidden
                     value={label}
                     onChange={setLabel}
-                    placeholder="e.g. Red, Blue, Large"
+                    placeholder="e.g. Red, Blue, Large, Small..."
                     autoComplete="off"
                     onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addOption(); }}}
                   />
                 </div>
                 <Button
                   variant="primary"
+                  icon={PlusCircleIcon}
                   onClick={addOption}
                   loading={isSubmitting}
                   disabled={!label.trim()}
@@ -155,10 +168,26 @@ export default function FieldOptions() {
 
         <Layout.Section>
           <Card padding="0">
+            <Box
+              paddingInline="400"
+              paddingBlock="300"
+              borderBlockEndWidth="025"
+              borderColor="border"
+            >
+              <InlineStack align="space-between" blockAlign="center">
+                <Text variant="headingSm" fontWeight="semibold">
+                  Options <Text as="span" tone="subdued">({options.length})</Text>
+                </Text>
+                {options.length > 0 && (
+                  <Badge tone="info">Drag to reorder</Badge>
+                )}
+              </InlineStack>
+            </Box>
+
             {options.length === 0 ? (
               <Box padding="600">
                 <EmptyState heading="No options yet">
-                  <p>Add options that customers can choose from the dropdown.</p>
+                  <p>Add options above that customers can choose from the dropdown.</p>
                 </EmptyState>
               </Box>
             ) : (
@@ -171,32 +200,31 @@ export default function FieldOptions() {
                       onDragOver={(e) => handleDragOver(e, index)}
                       onDragEnd={handleDragEnd}
                       style={{
-                        padding: "12px 16px",
+                        padding: "14px 16px",
                         background: dragIndex === index ? "#f6f6f7" : "white",
                         cursor: "grab",
                         display: "flex",
                         alignItems: "center",
                         gap: "12px",
+                        transition: "background 0.15s",
                       }}
                     >
-                      <span style={{ color: "#8c9196", display: "flex" }}>
+                      <span style={{ color: "#8c9196", display: "flex", flexShrink: 0 }}>
                         <Icon source={DragHandleIcon} />
                       </span>
-                      <div
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          borderRadius: "50%",
-                          background: "#f1f2f3",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "12px",
-                          fontWeight: "600",
-                          color: "#6d7175",
-                          flexShrink: 0,
-                        }}
-                      >
+                      <div style={{
+                        width: "26px",
+                        height: "26px",
+                        borderRadius: "50%",
+                        background: "#f1f2f3",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "12px",
+                        fontWeight: "600",
+                        color: "#6d7175",
+                        flexShrink: 0,
+                      }}>
                         {index + 1}
                       </div>
                       <Text variant="bodyMd" as="span" style={{ flex: 1 }}>
@@ -217,6 +245,16 @@ export default function FieldOptions() {
             )}
           </Card>
         </Layout.Section>
+
+        {options.length > 0 && (
+          <Layout.Section>
+            <Banner tone="success">
+              <Text variant="bodySm">
+                These options will appear in the dropdown on your product page. Changes are saved automatically.
+              </Text>
+            </Banner>
+          </Layout.Section>
+        )}
       </Layout>
     </Page>
   );

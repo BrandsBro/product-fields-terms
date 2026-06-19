@@ -4,20 +4,26 @@ export const loader = async ({ request }) => {
   const url = new URL(request.url);
   const shop = url.searchParams.get("shop");
   const productId = url.searchParams.get("productId");
+  const groupIds = url.searchParams.get("groupIds");
+  const productGid = `gid://shopify/Product/${productId}`;
 
-  if (!shop) {
-    return Response.json({ fields: [] });
+  if (!shop) return Response.json({ fields: [] });
+
+  const where = {
+    shop,
+    isActive: true,
+    OR: [
+      { productId: null },
+      { productId: productGid },
+    ],
+  };
+
+  if (groupIds) {
+    where.id = { in: groupIds.split(",").map((id) => id.trim()) };
   }
 
   const groups = await db.fieldGroup.findMany({
-    where: {
-      shop,
-      isActive: true,
-      OR: [
-        { productId: null },
-        { productId: String(productId) },
-      ],
-    },
+    where,
     include: {
       fields: {
         include: { options: { orderBy: { order: "asc" } } },

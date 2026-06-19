@@ -18,11 +18,14 @@
   var productId = {{ product.id | json }};
   var blockId = "{{ block.id }}";
   var appUrl = {{ block.settings.app_url | json }};
+  var groupIds = {{ block.settings.group_ids | json }};
   var pfFields = [];
 
   if (!appUrl) return;
 
-  fetch(appUrl + '/api/fields?shop=' + shop + '&productId=' + productId)
+  var apiUrl = appUrl + '/api/fields?shop=' + shop + '&productId=' + productId;
+  if (groupIds) apiUrl += '&groupIds=' + encodeURIComponent(groupIds);
+  fetch(apiUrl)
     .then(function(res) { return res.json(); })
     .then(function(data) {
       var container = document.getElementById('pf-block-' + blockId);
@@ -196,6 +199,12 @@
       "id": "app_url",
       "label": "App URL",
       "default": "https://product-fields-terms.onrender.com"
+    },
+    {
+      "type": "text",
+      "id": "group_ids",
+      "label": "Limit to specific groups (optional)",
+      "info": "Enter comma-separated group IDs to show only those groups. Leave blank to show all active groups."
     }
   ]
 }
