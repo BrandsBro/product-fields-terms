@@ -83,7 +83,7 @@ export default function Index() {
             <a href="#features">Features</a>
             <a href="#how-it-works">How it works</a>
             <a href="#pricing">Pricing</a>
-            <a href="mailto:brandsbrollc@gmail.com">Support</a>
+            <a href="#support">Support</a>
             <a href="https://apps.shopify.com/product-fields-terms" className="btn btn-primary">Install app</a>
           </div>
         </nav>
@@ -153,6 +153,27 @@ export default function Index() {
                 <li>Email support</li>
               </ul>
               <a href="https://apps.shopify.com/product-fields-terms" className="btn btn-primary" style={{display:"block", textAlign:"center"}}>Install free on Shopify</a>
+            </div>
+          </div>
+        </section>
+
+        <section className="section section-white" id="support">
+          <h2>Need help?</h2>
+          <p className="section-sub">We're here to help you get the most out of Product Fields & Terms</p>
+          <div style={{maxWidth:"500px", margin:"0 auto", textAlign:"center"}}>
+            <div className="card" style={{padding:"48px"}}>
+              <div style={{fontSize:"48px", marginBottom:"24px"}}>✉️</div>
+              <h3 style={{fontSize:"24px", marginBottom:"16px"}}>Send us an email</h3>
+              <p style={{color:"#555", marginBottom:"32px", lineHeight:"1.8"}}>
+                Have a question or need support? Send us an email and we'll get back to you within 24 hours.
+              </p>
+              <a 
+                href="mailto:brandsbrollc@gmail.com" 
+                className="btn btn-primary"
+                style={{display:"block", textAlign:"center", fontSize:"18px", padding:"16px 32px"}}
+              >
+                brandsbrollc@gmail.com
+              </a>
             </div>
           </div>
         </section>
