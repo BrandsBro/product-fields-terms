@@ -89,7 +89,7 @@ export default function Support() {
                   <p style={{fontSize:"14px"}}>{item.a}</p>
                 </div>
               ))}
-              <p>Email us directly: <a href="mailto:support@productfieldsandterms.com">support@productfieldsandterms.com</a></p>
+              <p>Email us directly: <a href="mailto:brandsbrollc@gmail.com">brandsbrollc@gmail.com</a></p>
             </div>
           </div>
         </div>

@@ -83,7 +83,7 @@ export default function Index() {
             <a href="#features">Features</a>
             <a href="#how-it-works">How it works</a>
             <a href="#pricing">Pricing</a>
-            <a href="/support">Support</a>
+            <a href="mailto:brandsbrollc@gmail.com">Support</a>
             <a href="https://apps.shopify.com/product-fields-terms" className="btn btn-primary">Install app</a>
           </div>
         </nav>
@@ -180,8 +180,7 @@ export default function Index() {
             <div>
               <h4>Support</h4>
               <ul>
-                <li><a href="/support">Contact us</a></li>
-                <li><a href="/help">Help center</a></li>
+                <li><a href="mailto:brandsbrollc@gmail.com">brandsbrollc@gmail.com</a></li>
               </ul>
             </div>
             <div>
