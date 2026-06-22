@@ -18,6 +18,7 @@ export default function Index() {
         <title>Product Fields & Terms — Custom Fields for Shopify</title>
         <style>{`
           * { margin: 0; padding: 0; box-sizing: border-box; }
+          html { scroll-behavior: smooth; }
           body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a; }
           .nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; border-bottom: 1px solid #eee; position: sticky; top: 0; background: white; z-index: 100; }
           .nav-logo { font-size: 20px; font-weight: 700; color: #1a1a1a; text-decoration: none; }
