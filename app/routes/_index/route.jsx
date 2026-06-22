@@ -95,7 +95,7 @@ export default function Index() {
           <p>Add text inputs, dropdowns, checkboxes, and agreement fields to any product page. Customer responses are saved directly in your orders.</p>
           <div className="hero-btns">
             <a href="https://apps.shopify.com/product-fields-terms" className="btn btn-primary">Install free on Shopify</a>
-            <a href="#how-it-works" className="btn btn-secondary">See how it works</a>
+            <a href="#how-it-works" className="btn btn-secondary" onClick={(e) => { e.preventDefault(); document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'}); }}>See how it works</a>
           </div>
         </section>
 
