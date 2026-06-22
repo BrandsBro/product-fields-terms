@@ -233,6 +233,18 @@ export default function Index() {
             <p>© 2026 Product Fields & Terms. All rights reserved.</p>
           </div>
         </footer>
+      <script dangerouslySetInnerHTML={{__html: `
+        window.addEventListener('load', function() {
+          document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              var t = document.getElementById(this.getAttribute('href').slice(1));
+              if (t) window.scrollTo({ top: t.offsetTop - 80, behavior: 'smooth' });
+            });
+          });
+        });
+      `}} />
       </body>
     </html>
   );
