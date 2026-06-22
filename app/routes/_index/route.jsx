@@ -56,7 +56,7 @@ export default function Index() {
           .cta-section p { color: rgba(255,255,255,0.8); font-size: 18px; margin-bottom: 40px; }
           .btn-white { background: white; color: #008060; }
           .footer { padding: 60px; background: #1a1a1a; color: #999; }
-          .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 40px; }
+          .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 40px; }
           .footer-logo { font-size: 20px; font-weight: 700; color: white; margin-bottom: 16px; }
           .footer h4 { color: white; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
           .footer ul { list-style: none; }
@@ -83,7 +83,7 @@ export default function Index() {
             <a href="#features">Features</a>
             <a href="#how-it-works">How it works</a>
             <a href="#pricing">Pricing</a>
-            <a href="#support">Support</a>
+
             <a href="https://apps.shopify.com/product-fields-terms" className="btn btn-primary">Install app</a>
           </div>
         </nav>
@@ -157,6 +157,26 @@ export default function Index() {
           </div>
         </section>
 
+        <section className="section section-gray" id="faq">
+          <h2>Frequently asked questions</h2>
+          <p className="section-sub">Everything you need to know about Product Fields & Terms</p>
+          <div style={{maxWidth:"700px", margin:"0 auto"}}>
+            {[
+              { q: "How do I show fields on my product page?", a: "Go to Online Store → Themes → Customize → Product page → Add block → find 'Product Fields' under Apps section. Save and the fields will appear." },
+              { q: "Where do I see customer responses?", a: "Customer responses are saved as line item properties. Go to Orders → click any order → you'll see the responses listed under each product." },
+              { q: "Can I assign fields to specific products only?", a: "Yes! Inside each field group, use the Product targeting section to assign fields to a specific product or collection." },
+              { q: "How do I add options to a dropdown field?", a: "Open a field group → click on a Dropdown field → click the Options button → add your choices there. You can also drag to reorder them." },
+              { q: "Can I temporarily hide fields without deleting them?", a: "Yes! Use the Deactivate button on any field group to hide it from your storefront without deleting it." },
+              { q: "Is this app free?", a: "Yes! Product Fields & Terms is completely free during our beta period. All features are included at no cost." },
+            ].map((item, i, arr) => (
+              <div key={i} style={{padding:"24px 0", borderBottom: i < arr.length - 1 ? "1px solid #e5e7eb" : "none"}}>
+                <p style={{fontWeight:"700", fontSize:"17px", marginBottom:"10px", color:"#1a1a1a"}}>{item.q}</p>
+                <p style={{color:"#555", lineHeight:"1.8"}}>{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="section section-white" id="support">
           <h2>Need help?</h2>
           <p className="section-sub">We're here to help you get the most out of Product Fields & Terms</p>
@@ -198,12 +218,7 @@ export default function Index() {
                 <li><a href="#how-it-works">How it works</a></li>
               </ul>
             </div>
-            <div>
-              <h4>Support</h4>
-              <ul>
-                <li><a href="mailto:brandsbrollc@gmail.com">brandsbrollc@gmail.com</a></li>
-              </ul>
-            </div>
+
             <div>
               <h4>Legal</h4>
               <ul>

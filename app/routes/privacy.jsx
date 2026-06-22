@@ -60,7 +60,7 @@ export default function Privacy() {
           <p>We comply with GDPR requirements. Upon request, we will provide, correct, or delete any personal data we hold about you. Contact us at the email below.</p>
 
           <h2>8. Contact Us</h2>
-          <p>If you have any questions about this Privacy Policy, please contact us at: <strong>support@productfieldsandterms.com</strong></p>
+          <p>If you have any questions about this Privacy Policy, please contact us at: <strong>brandsbrollc@gmail.com</strong></p>
         </div>
         <footer>
           <p>© 2026 Product Fields & Terms. <a href="/">Home</a> · <a href="/terms">Terms of Service</a></p>

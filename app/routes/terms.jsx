@@ -54,7 +54,7 @@ export default function Terms() {
           <p>We may update these terms from time to time. Continued use of the app after changes constitutes acceptance of the new terms.</p>
 
           <h2>8. Contact</h2>
-          <p>For questions about these terms, contact us at: <strong>support@productfieldsandterms.com</strong></p>
+          <p>For questions about these terms, contact us at: <strong>brandsbrollc@gmail.com</strong></p>
         </div>
         <footer>
           <p>© 2026 Product Fields & Terms. <a href="/">Home</a> · <a href="/privacy">Privacy Policy</a></p>
