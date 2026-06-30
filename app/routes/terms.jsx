@@ -4,7 +4,7 @@ export default function Terms() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Terms of Service — Product Fields & Terms</title>
+        <title>Terms of Service — Product Options & Terms</title>
         <style>{`
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a; }
@@ -21,17 +21,17 @@ export default function Terms() {
       </head>
       <body>
         <nav className="nav">
-          <a href="/" className="nav-logo">Product Fields & Terms</a>
+          <a href="/" className="nav-logo">Product Options & Terms</a>
         </nav>
         <div className="content">
           <h1>Terms of Service</h1>
           <p className="updated">Last updated: June 22, 2026</p>
 
           <h2>1. Acceptance of Terms</h2>
-          <p>By installing and using Product Fields & Terms, you agree to be bound by these Terms of Service.</p>
+          <p>By installing and using Product Options & Terms, you agree to be bound by these Terms of Service.</p>
 
           <h2>2. Description of Service</h2>
-          <p>Product Fields & Terms is a Shopify application that allows merchants to add custom fields to their product pages and collect customer information at checkout.</p>
+          <p>Product Options & Terms is a Shopify application that allows merchants to add custom fields to their product pages and collect customer information at checkout.</p>
 
           <h2>3. Use of Service</h2>
           <p>You agree to use our service only for lawful purposes and in accordance with Shopify's Partner Program Agreement and API Terms of Service.</p>
@@ -45,7 +45,7 @@ export default function Terms() {
           </ul>
 
           <h2>5. Limitation of Liability</h2>
-          <p>Product Fields & Terms is provided "as is" without warranties of any kind. We are not liable for any damages arising from the use of our service.</p>
+          <p>Product Options & Terms is provided "as is" without warranties of any kind. We are not liable for any damages arising from the use of our service.</p>
 
           <h2>6. Termination</h2>
           <p>We reserve the right to terminate access to our service for violations of these terms. You may terminate by uninstalling the app from your Shopify store.</p>
@@ -57,7 +57,7 @@ export default function Terms() {
           <p>For questions about these terms, contact us at: <strong>brandsbrollc@gmail.com</strong></p>
         </div>
         <footer>
-          <p>© 2026 Product Fields & Terms. <a href="/">Home</a> · <a href="/privacy">Privacy Policy</a></p>
+          <p>© 2026 Product Options & Terms. <a href="/">Home</a> · <a href="/privacy">Privacy Policy</a></p>
         </footer>
       </body>
     </html>

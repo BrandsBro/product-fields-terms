@@ -4,7 +4,7 @@ export default function Privacy() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Privacy Policy — Product Fields & Terms</title>
+        <title>Privacy Policy — Product Options & Terms</title>
         <style>{`
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a; }
@@ -21,14 +21,14 @@ export default function Privacy() {
       </head>
       <body>
         <nav className="nav">
-          <a href="/" className="nav-logo">Product Fields & Terms</a>
+          <a href="/" className="nav-logo">Product Options & Terms</a>
         </nav>
         <div className="content">
           <h1>Privacy Policy</h1>
           <p className="updated">Last updated: June 22, 2026</p>
 
           <h2>1. Introduction</h2>
-          <p>Product Fields & Terms ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and share information about you when you use our Shopify application.</p>
+          <p>Product Options & Terms ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and share information about you when you use our Shopify application.</p>
 
           <h2>2. Information We Collect</h2>
           <p>When you install our app, we collect:</p>
@@ -63,7 +63,7 @@ export default function Privacy() {
           <p>If you have any questions about this Privacy Policy, please contact us at: <strong>brandsbrollc@gmail.com</strong></p>
         </div>
         <footer>
-          <p>© 2026 Product Fields & Terms. <a href="/">Home</a> · <a href="/terms">Terms of Service</a></p>
+          <p>© 2026 Product Options & Terms. <a href="/">Home</a> · <a href="/terms">Terms of Service</a></p>
         </footer>
       </body>
     </html>

@@ -4,7 +4,7 @@ import { QuestionCircleIcon, ChatIcon, EmailIcon } from "@shopify/polaris-icons"
 const FAQS = [
   {
     q: "How do I show fields on my product page?",
-    a: "Go to Online Store → Themes → Customize → Product page → Add block → find 'Product Fields' under Apps section.",
+    a: "Go to Online Store → Themes → Customize → Product page → Add block → find 'Product Options' under Apps section.",
   },
   {
     q: "Where do I see customer responses?",
@@ -32,7 +32,7 @@ export default function Help() {
   return (
     <Page
       title="Help & Support"
-      subtitle="Everything you need to get started with Product Fields & Terms"
+      subtitle="Everything you need to get started with Product Options & Terms"
     >
       <Layout>
         <Layout.Section>

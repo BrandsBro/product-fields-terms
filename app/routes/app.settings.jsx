@@ -5,7 +5,7 @@ export default function Settings() {
   return (
     <Page
       title="Settings"
-      subtitle="Configure your Product Fields & Terms app"
+      subtitle="Configure your Product Options & Terms app"
     >
       <Layout>
         <Layout.Section>
@@ -13,7 +13,7 @@ export default function Settings() {
             <BlockStack gap="400">
               <Text variant="headingSm" fontWeight="semibold">Theme App Block</Text>
               <Text variant="bodySm" tone="subdued">
-                To show fields on your product page, you need to add the Product Fields block to your theme.
+                To show fields on your product page, you need to add the Product Options block to your theme.
               </Text>
               <Divider />
               <BlockStack gap="300">
@@ -21,7 +21,7 @@ export default function Settings() {
                   "Go to Online Store → Themes",
                   "Click Customize on your active theme",
                   "Navigate to a Product page",
-                  'Click "Add block" and find Product Fields under Apps',
+                  'Click "Add block" and find Product Options under Apps',
                   "Set the App URL and save",
                 ].map((step, i) => (
                   <InlineStack key={i} gap="200" blockAlign="center">
@@ -54,7 +54,7 @@ export default function Settings() {
               <Divider />
               <BlockStack gap="200">
                 {[
-                  { label: "App name", value: "Product Fields & Terms" },
+                  { label: "App name", value: "Product Options & Terms" },
                   { label: "Version", value: "1.0.0" },
                   { label: "Status", value: <Badge tone="success">Active</Badge> },
                 ].map((item) => (

@@ -8,7 +8,7 @@ export default function Support() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Support — Product Fields & Terms</title>
+        <title>Support — Product Options & Terms</title>
         <style>{`
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a; }
@@ -37,7 +37,7 @@ export default function Support() {
       </head>
       <body>
         <nav className="nav">
-          <a href="/" className="nav-logo">Product Fields & Terms</a>
+          <a href="/" className="nav-logo">Product Options & Terms</a>
         </nav>
 
         <div className="hero">
@@ -79,7 +79,7 @@ export default function Support() {
             <div className="card">
               <h2>Quick answers</h2>
               {[
-                { q: "How do I add fields to my product page?", a: "Go to Online Store → Themes → Customize → Product page → Add block → find 'Product Fields' under Apps." },
+                { q: "How do I add fields to my product page?", a: "Go to Online Store → Themes → Customize → Product page → Add block → find 'Product Options' under Apps." },
                 { q: "Where do I see customer responses?", a: "Go to Orders → click any order → responses appear under each line item." },
                 { q: "Can I assign fields to specific products?", a: "Yes! Inside each field group, use the Product targeting section to assign to specific products or collections." },
                 { q: "How do I add dropdown options?", a: "Open a field group → click on a dropdown field → click Options to add choices." },
@@ -95,7 +95,7 @@ export default function Support() {
         </div>
 
         <footer>
-          <p>© 2026 Product Fields & Terms. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a></p>
+          <p>© 2026 Product Options & Terms. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a></p>
         </footer>
       </body>
     </html>

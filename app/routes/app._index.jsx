@@ -112,7 +112,7 @@ export default function Index() {
 
   return (
     <Page
-      title="Product Fields & Terms"
+      title="Product Options & Terms"
       subtitle="Collect custom information from customers on your product pages"
       primaryAction={{
         content: "Create field group",
