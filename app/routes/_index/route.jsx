@@ -10,7 +10,3 @@ export const loader = async ({ request }) => {
     headers: { "Content-Type": "text/html" },
   });
 };
-
-export default function Index() {
-  return null;
-}
