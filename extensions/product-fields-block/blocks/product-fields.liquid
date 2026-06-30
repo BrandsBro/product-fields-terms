@@ -198,6 +198,54 @@
         }
         return originalSend.call(this, body);
       };
+
+        // Intercept "Buy it now" / accelerated checkout (Shop Pay, PayPal, Google Pay).
+        // These bypass /cart/add entirely, so without this their custom field
+        // answers would never be captured. We add the item to cart ourselves
+        // first (with properties), then send the customer to checkout.
+        document.addEventListener('click', function(e) {
+          if (!pfFields || pfFields.length === 0) return;
+          var buyNowEl = e.target.closest && e.target.closest('shopify-accelerated-checkout, [data-shopify="payment-button"]');
+          if (!buyNowEl) return;
+
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+          var form = document.querySelector('form[action="/cart/add"][data-type="add-to-cart-form"]')
+            || document.querySelector('form[action="/cart/add"]');
+          if (!form) return;
+
+          var variantInput = form.querySelector('[name="id"]');
+          var variantId = variantInput ? variantInput.value : null;
+          if (!variantId) return;
+
+          var quantityInput = form.querySelector('[name="quantity"]');
+          var quantity = quantityInput ? (parseInt(quantityInput.value, 10) || 1) : 1;
+
+          var properties = {};
+          var wrapperEl = document.getElementById('pf-wrapper-' + blockId);
+          if (wrapperEl) {
+            wrapperEl.querySelectorAll('[data-pf-label]').forEach(function(el) {
+              var label = el.dataset.pfLabel;
+              if (el.type === 'checkbox') {
+                if (el.checked) properties[label] = el.dataset.pfValue;
+              } else if (el.value) {
+                properties[label] = el.value;
+              }
+            });
+          }
+
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              items: [{ id: variantId, quantity: quantity, properties: properties }]
+            })
+          })
+            .then(function() { window.location.href = '/checkout'; })
+            .catch(function(err) { console.error('Buy now intercept failed:', err); });
+        }, true);
     })
     .catch(function(err) { console.error('Product fields error:', err); });
 })();
