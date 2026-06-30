@@ -133,8 +133,17 @@ const FIELD_TYPES = [
   { label: "Text input", value: "TEXT" },
   { label: "Dropdown", value: "DROPDOWN" },
   { label: "Checkbox", value: "CHECKBOX" },
-  { label: "Agreement (required checkbox)", value: "AGREEMENT" },
 ];
+
+// Includes all known types (including Agreement) so existing fields
+// of any type still display their label correctly, even though
+// Agreement is currently hidden from the Add Field creation dropdown.
+const FIELD_TYPE_LABELS = {
+  TEXT: "Text input",
+  DROPDOWN: "Dropdown",
+  CHECKBOX: "Checkbox",
+  AGREEMENT: "Agreement (required checkbox)",
+};
 
 const FIELD_ICONS = {
   TEXT: TextIcon,
@@ -441,7 +450,7 @@ export default function GroupDetail() {
                             <Text variant="bodyMd" fontWeight="semibold">{field.label}</Text>
                             <InlineStack gap="200">
                               <Badge tone={FIELD_TONE[field.type]}>
-                                {FIELD_TYPES.find((t) => t.value === field.type)?.label}
+                                {FIELD_TYPE_LABELS[field.type]}
                               </Badge>
                               {field.type === "DROPDOWN" && (
                                 <Text variant="bodySm" tone="subdued">
