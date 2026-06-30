@@ -12,7 +12,7 @@ const FAQS = [
   },
   {
     q: "Can I assign fields to specific products only?",
-    a: "Yes! When creating a field group, you can choose to apply it to all products or a specific product by entering the product ID.",
+    a: "Yes! Inside any field group, use the Product Targeting section to limit it to a specific product or collection using the picker — no need to enter IDs manually.",
   },
   {
     q: "How do I add options to a dropdown field?",
@@ -24,7 +24,7 @@ const FAQS = [
   },
   {
     q: "Why are my fields not showing on the product page?",
-    a: "Make sure: 1) The field group is Active, 2) The theme block is added to your product page template, 3) The App URL in the block settings is correct.",
+    a: "Make sure: 1) The field group is Active, 2) The theme block is added to your product page template in the theme editor, 3) The product or collection targeting (if set) matches the page you're viewing.",
   },
 ];
 
@@ -121,6 +121,17 @@ export default function Help() {
               </BlockStack>
             </Card>
           </BlockStack>
+        </Layout.Section>
+
+        <Layout.Section>
+          <Card>
+            <BlockStack gap="200" inlineAlign="center">
+              <Text variant="headingSm" fontWeight="semibold">Still need help?</Text>
+              <Text variant="bodySm" tone="subdued" alignment="center">
+                For support, please email brandsbrollc@gmail.com and we'll get back to you as soon as possible.
+              </Text>
+            </BlockStack>
+          </Card>
         </Layout.Section>
       </Layout>
     </Page>
