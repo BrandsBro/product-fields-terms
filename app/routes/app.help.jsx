@@ -102,7 +102,6 @@ export default function Help() {
                     { type: "Text input", desc: "Free text entry", color: "#e3f2fd" },
                     { type: "Dropdown", desc: "Select from options", color: "#e8f5e9" },
                     { type: "Checkbox", desc: "Yes/No toggle", color: "#fce4ec" },
-                    { type: "Agreement", desc: "Required consent checkbox", color: "#fff3e0" },
                   ].map((item) => (
                     <InlineStack key={item.type} gap="200" blockAlign="center">
                       <div style={{
