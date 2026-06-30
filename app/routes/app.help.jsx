@@ -32,7 +32,7 @@ export default function Help() {
   return (
     <Page
       title="Help & Support"
-      subtitle="Everything you need to get started with Product Options & Terms"
+      subtitle="Everything you need to get started with Product Options and Terms"
     >
       <Layout>
         <Layout.Section>

@@ -8,7 +8,7 @@ export default function Support() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Support — Product Options & Terms</title>
+        <title>Support — Product Options and Terms</title>
         <style>{`
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a; }
@@ -37,7 +37,7 @@ export default function Support() {
       </head>
       <body>
         <nav className="nav">
-          <a href="/" className="nav-logo">Product Options & Terms</a>
+          <a href="/" className="nav-logo">Product Options and Terms</a>
         </nav>
 
         <div className="hero">
@@ -95,7 +95,7 @@ export default function Support() {
         </div>
 
         <footer>
-          <p>© 2026 Product Options & Terms. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a></p>
+          <p>© 2026 Product Options and Terms. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a></p>
         </footer>
       </body>
     </html>

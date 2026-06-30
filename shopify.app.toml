@@ -1,6 +1,6 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 client_id = "f56c3dd58a43fd56211213e7c78f9301"
-name = "Product Options & Terms"
+name = "Product Options and Terms"
 application_url = "https://product-fields-terms.onrender.com"
 embedded = true
 

@@ -5,7 +5,7 @@ export default function Settings() {
   return (
     <Page
       title="Settings"
-      subtitle="Configure your Product Options & Terms app"
+      subtitle="Configure your Product Options and Terms app"
     >
       <Layout>
         <Layout.Section>
@@ -54,7 +54,7 @@ export default function Settings() {
               <Divider />
               <BlockStack gap="200">
                 {[
-                  { label: "App name", value: "Product Options & Terms" },
+                  { label: "App name", value: "Product Options and Terms" },
                   { label: "Version", value: "1.0.0" },
                   { label: "Status", value: <Badge tone="success">Active</Badge> },
                 ].map((item) => (
