@@ -47,34 +47,29 @@ export const loader = async ({ request, params }) => {
   });
   if (!group) throw new Response("Not Found", { status: 404 });
 
-  let productTitle = null;
-  let collectionTitle = null;
+  let targetItems = [];
+  let targetType = null;
 
-  if (group.productId && group.productId.includes("Product")) {
-    const response = await admin.graphql(
-      `#graphql
-      query getProduct($id: ID!) {
-        product(id: $id) { title }
-      }`,
-      { variables: { id: group.productId } }
-    );
-    const data = await response.json();
-    productTitle = data?.data?.product?.title || null;
+  if (group.productId) {
+    const ids = group.productId.split(",").map((id) => id.trim()).filter(Boolean);
+    if (ids.length > 0) {
+      targetType = ids[0].includes("Collection") ? "collection" : "product";
+      const response = await admin.graphql(
+        `#graphql
+        query getNodes($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Product { id title }
+            ... on Collection { id title }
+          }
+        }`,
+        { variables: { ids } }
+      );
+      const data = await response.json();
+      targetItems = (data?.data?.nodes || []).filter(Boolean);
+    }
   }
 
-  if (group.productId && group.productId.includes("Collection")) {
-    const response = await admin.graphql(
-      `#graphql
-      query getCollection($id: ID!) {
-        collection(id: $id) { title }
-      }`,
-      { variables: { id: group.productId } }
-    );
-    const data = await response.json();
-    collectionTitle = data?.data?.collection?.title || null;
-  }
-
-  return { group, productTitle, collectionTitle };
+  return { group, targetItems, targetType };
 };
 
 export const action = async ({ request, params }) => {
@@ -163,7 +158,7 @@ const FIELD_TONE = {
 };
 
 export default function GroupDetail() {
-  const { group, productTitle, collectionTitle } = useLoaderData();
+  const { group, targetItems, targetType } = useLoaderData();
   const fetcher = useFetcher();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -235,21 +230,21 @@ export default function GroupDetail() {
   };
 
   const pickProduct = async () => {
-    const selected = await shopify.resourcePicker({ type: "product", multiple: false });
+    const selected = await shopify.resourcePicker({ type: "product", multiple: true });
     if (selected && selected.length > 0) {
       const form = new FormData();
       form.append("intent", "setProduct");
-      form.append("productId", selected[0].id);
+      form.append("productId", selected.map((p) => p.id).join(","));
       fetcher.submit(form, { method: "POST" });
     }
   };
 
   const pickCollection = async () => {
-    const selected = await shopify.resourcePicker({ type: "collection", multiple: false });
+    const selected = await shopify.resourcePicker({ type: "collection", multiple: true });
     if (selected && selected.length > 0) {
       const form = new FormData();
       form.append("intent", "setProduct");
-      form.append("productId", selected[0].id);
+      form.append("productId", selected.map((c) => c.id).join(","));
       fetcher.submit(form, { method: "POST" });
     }
   };
@@ -306,7 +301,7 @@ export default function GroupDetail() {
           <InlineGrid columns={3} gap="400">
             {[
               { label: "Total Fields", value: group.fields.length, subtitle: "In this group" },
-              { label: "Applies to", value: group.productId ? "1 Product" : "All", subtitle: group.productId ? "Specific product" : "All products" },
+              { label: "Applies to", value: targetItems.length > 0 ? `${targetItems.length} ${targetType === "collection" ? "Collection" : "Product"}${targetItems.length !== 1 ? "s" : ""}` : "All", subtitle: targetItems.length > 0 ? `Specific ${targetType}${targetItems.length !== 1 ? "s" : ""}` : "All products" },
               { label: "Status", value: group.isActive ? "Active" : "Inactive", subtitle: group.isActive ? "Showing on storefront" : "Hidden from storefront" },
             ].map((stat) => (
               <Card key={stat.label}>
@@ -332,25 +327,31 @@ export default function GroupDetail() {
 
               </InlineStack>
               <Divider />
-              {group.productId ? (
-                <InlineStack align="space-between" blockAlign="center">
-                  <InlineStack gap="200" blockAlign="center">
-                    <Badge tone={group.productId.includes("Collection") ? "warning" : "info"}>
-                      {group.productId.includes("Collection") ? "Collection" : "Product"}
-                    </Badge>
-                    <Text variant="bodyMd" fontWeight="semibold">
-                      {productTitle || collectionTitle || group.productId}
-                    </Text>
+              {targetItems.length > 0 ? (
+                <BlockStack gap="300">
+                  <InlineStack align="space-between" blockAlign="start">
+                    <BlockStack gap="200">
+                      <Badge tone={targetType === "collection" ? "warning" : "info"}>
+                        {targetType === "collection" ? "Specific collections" : "Specific products"} ({targetItems.length})
+                      </Badge>
+                      <InlineStack gap="150" wrap>
+                        {targetItems.map((item) => (
+                          <Box key={item.id} background="bg-surface-secondary" borderRadius="200" paddingInline="300" paddingBlock="100">
+                            <Text variant="bodySm" fontWeight="medium">{item.title}</Text>
+                          </Box>
+                        ))}
+                      </InlineStack>
+                    </BlockStack>
+                    <InlineStack gap="200">
+                      {targetType === "collection" ? (
+                        <Button size="slim" onClick={pickCollection}>Change collections</Button>
+                      ) : (
+                        <Button size="slim" onClick={pickProduct}>Change products</Button>
+                      )}
+                      <Button size="slim" tone="critical" onClick={removeProduct}>Remove — show on all</Button>
+                    </InlineStack>
                   </InlineStack>
-                  <InlineStack gap="200">
-                    {group.productId.includes("Collection") ? (
-                      <Button size="slim" onClick={pickCollection}>Change collection</Button>
-                    ) : (
-                      <Button size="slim" onClick={pickProduct}>Change product</Button>
-                    )}
-                    <Button size="slim" tone="critical" onClick={removeProduct}>Remove — show on all</Button>
-                  </InlineStack>
-                </InlineStack>
+                </BlockStack>
               ) : (
                 <BlockStack gap="300">
                   <InlineStack gap="200" blockAlign="center">
@@ -358,8 +359,8 @@ export default function GroupDetail() {
                     <Text variant="bodySm" tone="subdued">Fields show on every product page</Text>
                   </InlineStack>
                   <InlineStack gap="200">
-                    <Button size="slim" onClick={pickProduct}>Limit to specific product</Button>
-                    <Button size="slim" onClick={pickCollection}>Limit to collection</Button>
+                    <Button size="slim" onClick={pickProduct}>Limit to specific products</Button>
+                    <Button size="slim" onClick={pickCollection}>Limit to collections</Button>
                   </InlineStack>
                 </BlockStack>
               )}

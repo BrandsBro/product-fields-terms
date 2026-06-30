@@ -16,6 +16,7 @@
 (function() {
   var shop = {{ shop.permanent_domain | json }};
   var productId = {{ product.id | json }};
+  var collectionIds = {{ product.collections | map: 'id' | join: ',' | json }};
   var blockId = "{{ block.id }}";
   var appUrl = 'https://product-fields-terms.onrender.com';
   var groupIds = {{ block.settings.group_ids | json }};
@@ -34,6 +35,7 @@
 
 
   var apiUrl = appUrl + '/api/fields?shop=' + shop + '&productId=' + productId;
+  if (collectionIds) apiUrl += '&collectionIds=' + encodeURIComponent(collectionIds);
   if (groupIds) apiUrl += '&groupIds=' + encodeURIComponent(groupIds);
   fetch(apiUrl)
     .then(function(res) { return res.json(); })
